@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import React from 'react'
 import Navbar from './Navbar'
+import Footer from './Footer'
 import { useRouter } from 'next/router'
 import styled from "styled-components"
 import Link from 'next/link'
@@ -44,6 +45,7 @@ const Layout = ({title,description,children}) => {
       <Breadcumb><Link href="/sneaker">Home</Link> &gt; {breadcumbs}</Breadcumb>
     </Div>
     {children}
+    <Footer />
     </>
   )
 }

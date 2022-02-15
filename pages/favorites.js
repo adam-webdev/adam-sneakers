@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React,{useEffect} from "react";
 import styled from "styled-components";
 import Sepatu from '../public/images/sepatu3.png'
 import Link from "next/link"
@@ -7,6 +7,8 @@ import Layout from "../components/Layout";
 import { useStateContext } from "../utils/Store";
 import { useSnackbar } from "notistack";
 import ResultSearch from "../components/ResultSearch";
+import { useRouter } from "next/router";
+import Footer from "../components/Footer";
 
 const Container = styled.div`
   padding:  0 80px;
@@ -143,6 +145,7 @@ const H2 = styled.h2`
 const Favorites = () => {
   const {state,dispatch,searchInput} = useStateContext()
   const {enqueueSnackbar,closeSnackbar} = useSnackbar()
+  const router = useRouter()
   const LoadMore = () => {
     setLimit((current) => current + 10)
   }
@@ -161,17 +164,17 @@ const Favorites = () => {
       <Layout title="All Favorites" description="Favorites your shoes">
       <Container>
             <H2>Your Favorites :</H2>
-        {state?.favorites.favItems < 0 ? <p>Kosong </p> : (
+        {state?.favorites?.favItems.length < 0 ? <p>Kosong </p> : (
         <GridCard>
-          {state?.favorites.favItems.map((data,index) => (
+          {state?.favorites?.favItems.map((data,index) => (
             <Card key={index}>
               <CardImage>
-                <Img src={ data.image.original !== "" ? data.image.original : Sepatu} width={300} height={300}  alt={data?.name} />
+                <Img src={ data?.image.original !== "" ? data.image?.original : Sepatu} width={300} height={300}  alt={data?.name} />
                 <Background background="#ffbf00"  />
               </CardImage>
               <CardBody>
                 <Brand>{data?.brand}</Brand>
-                <Price>${data?.retailPrice === 0 ? 23 : data.retailPrice}</Price>
+                <Price>${data?.retailPrice === 0 ? 23 : data?.retailPrice}</Price>
                 <p>{data?.name}</p>
                 <ButtonFavorite onClick={() => handleDeleteFavorite(data)}>Delete Favorite</ButtonFavorite>
                 <Link href={`/sneaker/${data.id}`} passHref>
@@ -182,7 +185,6 @@ const Favorites = () => {
           ))}
         </GridCard>
         )}
-
       </Container>
       </Layout>
     )

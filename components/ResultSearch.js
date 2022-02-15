@@ -4,13 +4,29 @@ import { Background, Brand, ButtonDetail, ButtonFavorite, Card, CardBody, CardIm
 import Layout from './Layout'
 import Sepatu from '../public/images/sepatu1.png'
 import { useStateContext } from '../utils/Store'
+import { useSnackbar } from 'notistack'
 
 const ResultSearch = () => {
-  const {results,loading} = useStateContext()
-  console.log("result search",results)
+  const {results,loading,dispatch} = useStateContext()
+  const {enqueueSnackbar,closeSnackbar} = useSnackbar()
+  const handleFavorite = (data) => {
+    closeSnackbar()
+      const existItem = state?.favorites?.favItems.some(exist => exist.id === data.id)
+      if(existItem){
+        enqueueSnackbar("favorite already exist",{variant:'warning'})
+      }else{
+        enqueueSnackbar("successfuly added to favorite",{variant:'success'})
+        dispatch({type:"ADD_FAVORITES",payload:{...data}})
+      }
+
+    }
    return (
       <Layout title="All Sneakers" description="Sepatu murah, keren, dan bagus">
       <Container>
+        {
+          console.log("ResultSearch",results)
+
+        }
         <GridCard>
           {loading ? (<p>loading...</p>) :
           results?.results?.map((data,index) => (

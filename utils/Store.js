@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useReducer } from "react";
+import React, { createContext, useState, useContext, useReducer, useEffect, useCallback } from "react";
 
 const StateContext = createContext();
 const baseUrl = "https://the-sneaker-database.p.rapidapi.com/search?limit=100&query=";
@@ -55,25 +55,27 @@ const StateContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [state, dispatch] = useReducer(reducer, initialState);
 
+
+
   const getSneakers = async (query) => {
-        // setResult(query);
-    // try {
-    //     setLoading(true);
-    //     const data = await fetch(
-    //       `${baseUrl}${query}`
-    //     ,{
-    //       headers:{
-    //         "x-rapidapi-host": "the-sneaker-database.p.rapidapi.com",
-    //         "x-rapidapi-key": "bdc388d739msh63b1e4fd7b76c10p194c57jsna34ac259c378"
-    //       }
-    //     });
-    //     const dataJson = await data.json();
-    //     setResult(dataJson);
-    //     setLoading(false);
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    try {
+        setLoading(true);
+        const data = await fetch(
+          `https://the-sneaker-database.p.rapidapi.com/search?limit=100&query=${query}`
+        ,{
+          headers:{
+            "x-rapidapi-host": "the-sneaker-database.p.rapidapi.com",
+            "x-rapidapi-key": "fabd47de84msh1b480869cbf2da5p1a08fajsn8261be62e22d"
+          }
+        });
+        const dataJson = await data.json();
+        setResult(dataJson);
+        setLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
   };
+
 
   return (
     <StateContext.Provider
@@ -84,6 +86,7 @@ const StateContextProvider = ({ children }) => {
         searchInput,
         setSearchInput,
         loading,
+        setLoading,
         state,
         dispatch,
       }}

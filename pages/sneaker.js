@@ -50,7 +50,7 @@ export const Card = styled.div`
   border-radius: 4px;
   border:1px solid rgb(0 0 0 /10%);
   &:hover{
-    box-shadow: 4px 4px 6px rgb(0 0 0 /10%);
+    box-shadow: 2px 4px 4px 3px rgb(0 0 0 /10%);
   }
 `
 
@@ -69,14 +69,14 @@ export const Img = styled(Image)`
 export const Background = styled.span`
   width: 90%;
   cursor:pointer;
+  background:  rgba(0 0 0 / 5%);
   /* background:${props => props.background ? props.background : 'gold' }; */
   height: 50px;
   margin-top:-50px;
-  background:  rgba(0 0 0 /5%);
   border-radius:50%;
-  z-index:2;
+  z-index:9999;
   margin-bottom:10px;
-  filter: blur(40px);
+  filter: blur(2px);
 `
 
 export const CardBody = styled.div`
@@ -137,24 +137,22 @@ const ButtonChangeColor = styled.button`
 `
 
 
-const Sneakers = ({dataStatic}) => {
+const Sneakers = ({resultsData}) => {
   const {state,dispatch,searchInput,results,setResult,loading} = useStateContext()
   const {enqueueSnackbar,closeSnackbar} = useSnackbar()
   const router = useRouter()
   useEffect(() => {
     if(searchInput){
         router.push(`/sneaker?q=${searchInput}`)
-      }
+    }
+    setResult(resultsData)
   },[searchInput])
 
-  // const LoadMore = () => {
-  //   setLimit((current) => current + 10)
-  // }
 
-  setResult(dataStatic)
+
   const handleFavorite = (data) => {
   closeSnackbar()
-    const existItem = state.favorites.favItems.some(exist => exist.id === data.id)
+    const existItem = state?.favorites?.favItems.some(exist => exist.id === data.id)
     if(existItem){
       enqueueSnackbar("favorite already exist",{variant:'warning'})
     }else{
@@ -176,19 +174,20 @@ const Sneakers = ({dataStatic}) => {
   //     return colorData
   //   }
   // }
-console.log("hasil search",searchInput)
-console.log("hasil query",results)
+
   if(searchInput){
     return <ResultSearch />
   }else{
     return (
-      <Layout title="All Sneakers" description="Sepatu murah, keren, dan bagus">
+      <Layout title="Sneakers" description="Sepatu murah, keren, dan bagus">
       <Container>
+        {console.log("Snekaers",searchInput)}
+        {console.log("Snekaers",results)}
         <GridCard>
-          {dataStatic?.results?.map((data,index) => (
+          {resultsData?.results?.map((data,index) => (
             <Card key={index}>
               <CardImage>
-                <Img src={ data.image.original !== "" ? data.image.original : Sepatu} width={300} height={300}  alt={data?.name} />
+                <Img src={ data?.image.original !== "" ? data.image.original : Sepatu} width={300} height={300}  alt={data?.name} />
                 <Background background="#FFBF00"  />
               </CardImage>
               <CardBody>
@@ -196,6 +195,7 @@ console.log("hasil query",results)
                 <Price>${data?.retailPrice === 0 ? 23 : data.retailPrice}</Price>
                 <p>{data?.name}</p>
                 <ButtonFavorite  onClick={()=> handleFavorite(data)} >Add Favorite</ButtonFavorite>
+                {console.log("id => ",typeof(data.id))}
                 <Link href={`/sneaker/${data.id}`} passHref>
                   <ButtonDetail background="#000">Detail</ButtonDetail>
                 </Link>
@@ -209,16 +209,16 @@ console.log("hasil query",results)
   }
 }
 
-export async function getStaticProps(){
+export async function getServerSideProps(){
   const data = await fetch(`https://the-sneaker-database.p.rapidapi.com/sneakers?limit=100`,{
     headers:{
       "x-rapidapi-host": "the-sneaker-database.p.rapidapi.com",
-      "x-rapidapi-key": "bdc388d739msh63b1e4fd7b76c10p194c57jsna34ac259c378"
+      "x-rapidapi-key": "fabd47de84msh1b480869cbf2da5p1a08fajsn8261be62e22d"
     }
   })
-  const dataStatic = await data.json()
+  const resultsData = await data.json()
   return {
-    props: { dataStatic }
+    props: { resultsData }
   }
 }
 export default Sneakers;

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled,{keyframes} from "styled-components";
 import {MdOutlineFavorite} from "react-icons/md"
 import {FiSearch} from "react-icons/fi"
@@ -224,9 +224,16 @@ const Navbar = () => {
   const [navbarShadow, setNavbarShadow] = useState(false)
   const [showInputSearch, setShowInputSearch] = useState(false)
   const [clickMobileIconSearch, setClickMobileIconSearch] = useState(false)
-  const {searchInput,setSearchInput,getSneakers,setResult,results,state} = useStateContext(search)
+  const {searchInput,setLoading,getSneakers,setSearchInput,setResult,results,state} = useStateContext(search)
   const [autoComplete,setAutoComplete] = useState(false)
   const [suggestion,setSuggestion] = useState([])
+
+  const brands = [
+    "ASICS", "ADIDAS", "ALEXANDER MCQUEEN", "BAIT", "BALENCIAGA", "BURBERRY", "CHANEL", "COMMON PROJECTS", "CONVERSE", "CROCS","DIADORA","DIOR","GUCCI","JORDAN","LI-NING","LOUIS VUITTON","NEW BALANCE","NIKE","OFF-WHITE","PRADA","PUMA","REEBOK","SAINT LAURENT","SAUCONY","UNDER ARMOUR","VANS","VERSACE","YEEZY"
+  ]
+
+
+
 
   const handleChangeSearch = (text) => {
     // const result = [
@@ -247,7 +254,7 @@ const Navbar = () => {
     // ]
     let matches = []
     if(text.length > 0){
-      matches = results.results.filter((d) => {
+      matches = results?.results?.filter((d) => {
         const regex = new RegExp(`${text}`,"gi")
         return d.name.match(regex)
       })
@@ -272,16 +279,14 @@ const Navbar = () => {
       if(searchInput){
         setSearchInput("")
       }
-    getSneakers(search)
     setSearchInput(search)
+    getSneakers(search)
     setAutoComplete(false)
 
     }
   }
   const handleClickSearch = () => {
-    if(searchInput){
-      setSearchInput("")
-    }
+
     getSneakers(search)
     setSearchInput(search)
     setAutoComplete(false)
@@ -291,6 +296,9 @@ const Navbar = () => {
 
   const handleClickAutoComplete = () => {
     setAutoComplete(!autoComplete)
+  }
+  const handleClickAutoCompleteDisabled = () => {
+    setAutoComplete(false)
   }
 
   const handleReset = () => {
@@ -331,30 +339,32 @@ const handleClickMobileIconSearch = () => {
   }
 
   return (
-    <Div background={navbarShadow ? "#fff" : ''} shadow={navbarShadow ? '0px 1px 4px 4px rgba(0 0 0 / 10%)' : ''}>
-      <Link href="/sneaker">
+    <Div  background={navbarShadow ? "#fff" : ''} shadow={navbarShadow ? '0px 1px 4px 4px rgba(0 0 0 / 10%)' : ''}>
+      <Link href="/sneaker" passHref>
+      <a>
         <IconLogoMobile />
+      </a>
       </Link>
         <BoxInput>
           <Input onClick={handleClickAutoComplete} onKeyPress={(e) => handleSearch(e) } type="text" value={search} onChange={(e) => handleChangeSearch(e.target.value)} placeholder="Search sneaker your favorites..." required />
-          {search ?
+          { search ?
             <IconReset onClick={handleReset}/>
-          : ""
+            : ""
           }
 
           {
             autoComplete ?
               <DivSearch>
                   { search ? (
-                    suggestion && suggestion.map((s,i) => i < 50 && (
-                      <ListSearch key={i} onClick={(e) => {handleSearch(e),onSuggest(s.name) }}>{s.name}</ListSearch>
-                    ))):( <>
-                          <p><i> pencarian terpopuler</i></p>
-                          <ListSearch onClick={(e) => {handleSearch(e),onSuggest("adidas")}}>Adidas</ListSearch>
-                          <ListSearch onClick={(e) => {handleSearch(e),onSuggest("nike")}}>Nike</ListSearch>
-                          <ListSearch onClick={(e) => {handleSearch(e),onSuggest("puma")}}>Puma</ListSearch>
-                          <ListSearch onClick={(e) => {handleSearch(e),onSuggest("vans")}}>Vans</ListSearch>
-                        </>
+                      suggestion && suggestion.map((s,i) => i < 100 && (
+                        <ListSearch key={i} onClick={(e) => {handleSearch(e),onSuggest(s.name)}}>{s.name}</ListSearch>
+                    ))):(
+                    <>
+                      <p><i> search by brands</i></p>
+                      {brands.map((search,i) => (
+                        <ListSearch key={i} onClick={(e) => {handleSearch(e),onSuggest(search)}}>{search}</ListSearch>
+                      ))}
+                    </>
                     )
                   }
 
@@ -368,26 +378,9 @@ const handleClickMobileIconSearch = () => {
       <Link href="/favorites" passHref>
         <WrappIcon>
         <Icon />
-        <TotalFavorite>{state?.favorites?.favItems.length}</TotalFavorite>
+        <TotalFavorite>{state?.favorites?.favItems.length === 0  ?  0 : state?.favorites?.favItems.length  }</TotalFavorite>
         </WrappIcon>
       </Link>
-      {/* {clickMobileIconSearch ? (
-      <ClickMobileSearch>
-        <BoxInput>
-            <Input onKeyPress={(e) => handleSearch(e) } type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search sneaker your favorites..." required />
-            {search ?
-              <IconReset onClick={handleReset}/>
-            : ""
-            }
-            <WrappIconSearch onClick={handleSearch}>
-              <IconSearch />
-            </WrappIconSearch>
-          </BoxInput>
-              <IconReset onClick={handleReset}/>
-
-        </ClickMobileSearch>
-      ):""} */}
-
     </Div>
   );
 };
