@@ -259,7 +259,6 @@ const Navbar = () => {
         return d.name.match(regex)
       })
     }
-    console.log("match : ", matches)
     setSuggestion(matches)
     setSearch(text)
   }

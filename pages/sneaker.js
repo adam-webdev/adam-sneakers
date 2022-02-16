@@ -153,7 +153,6 @@ const Sneakers = ({resultsData}) => {
   const handleFavorite = (data) => {
   closeSnackbar()
     const existItem = state?.favorites.favItems !== null ?
-
     state?.favorites?.favItems.find(exist => exist.id === data.id) : null
     if(existItem){
       enqueueSnackbar("favorite already exist",{variant:'warning'})
@@ -182,8 +181,6 @@ const Sneakers = ({resultsData}) => {
     return (
       <Layout title="Sneakers" description="Sepatu murah, keren, dan bagus">
       <Container>
-        {console.log("Snekaers",searchInput)}
-        {console.log("Snekaers",results)}
         <GridCard>
           {resultsData?.results?.map((data,index) => (
             <Card key={index}>
@@ -196,9 +193,8 @@ const Sneakers = ({resultsData}) => {
                 <Price>${data?.retailPrice === 0 ? 23 : data.retailPrice}</Price>
                 <p>{data?.name}</p>
                 <ButtonFavorite  onClick={()=> handleFavorite(data)} >Add Favorite</ButtonFavorite>
-                {console.log("id => ",typeof(data.id))}
                 <Link href={`/sneaker/${data.id}`} passHref>
-                  <ButtonDetail background="#000">Detail</ButtonDetail>
+                  <ButtonDetail background="#000" onClick={() => {setResult([]),setSearchInput("")}}>Detail</ButtonDetail>
                 </Link>
               </CardBody>
           </Card>
@@ -214,7 +210,7 @@ export async function getServerSideProps(){
   const data = await fetch(`https://the-sneaker-database.p.rapidapi.com/sneakers?limit=100`,{
     headers:{
       "x-rapidapi-host": "the-sneaker-database.p.rapidapi.com",
-      "x-rapidapi-key": "secret"
+      "x-rapidapi-key": "fabd47de84msh1b480869cbf2da5p1a08fajsn8261be62e22d"
     }
   })
   const resultsData = await data.json()

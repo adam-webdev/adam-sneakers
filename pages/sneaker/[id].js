@@ -84,7 +84,6 @@ const SneakerDetail = () => {
   // const {id} = useParams()
   const router = useRouter()
   const { id } = router.query
-  console.log(id)
 
     const fetchSneakerId = async () => {
       setSearchInput("")
@@ -93,10 +92,9 @@ const SneakerDetail = () => {
           const fetchId = await fetch(`https://the-sneaker-database.p.rapidapi.com/sneakers/${id}`,{
             headers:{
               "x-rapidapi-host": "the-sneaker-database.p.rapidapi.com",
-              "x-rapidapi-key": "secret"
+              "x-rapidapi-key": "fabd47de84msh1b480869cbf2da5p1a08fajsn8261be62e22d"
             }})
           const fetchIdJson = await fetchId.json()
-          console.log(fetchIdJson)
           setResults(fetchIdJson.results[0])
           setLoading(false)
       } catch(err) {
@@ -105,14 +103,13 @@ const SneakerDetail = () => {
     }
   useEffect(() => {
     fetchSneakerId()
-  },[])
+  },[id])
   // useEffect(() => {
   //   if(searchInput){
   //     router.push(`/sneaker?q=${searchInput}`)
   //   }
   // },[searchInput])
 
-console.log(results)
   if(searchInput){
     return(
       <ResultSearch />

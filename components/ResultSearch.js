@@ -7,31 +7,26 @@ import { useStateContext } from '../utils/Store'
 import { useSnackbar } from 'notistack'
 
 const ResultSearch = () => {
-  const {results,loading,dispatch,state} = useStateContext()
+  const {results,loading,dispatch,state,setResult,setSearchInput} = useStateContext()
   const {enqueueSnackbar,closeSnackbar} = useSnackbar()
-  const handleFavorite = (data) => {
-    closeSnackbar()
 
-      if(state?.favorites.favItems === null){
-        enqueueSnackbar("successfuly added to favorite",{variant:'success'})
-        dispatch({type:"ADD_FAVORITES",payload:{...data}})
-      }else{
-        const existItem =  state?.favorites?.favItems.some(exist => exist.id === data.id)
+    const handleFavorite = (data) => {
+      closeSnackbar()
+        const existItem = state?.favorites.favItems !== null ?
+        state?.favorites?.favItems.find(exist => exist.id === data.id) : null
         if(existItem){
           enqueueSnackbar("favorite already exist",{variant:'warning'})
         }else{
           enqueueSnackbar("successfuly added to favorite",{variant:'success'})
           dispatch({type:"ADD_FAVORITES",payload:{...data}})
         }
-      }
-
-
     }
+
+
    return (
       <Layout title="All Sneakers" description="Sepatu murah, keren, dan bagus">
       <Container>
         {
-          console.log("ResultSearch",results)
 
         }
         <GridCard>
@@ -48,7 +43,7 @@ const ResultSearch = () => {
                 <p>{data?.name}</p>
                 <ButtonFavorite onClick={()=> handleFavorite(data)}>Add Favorite</ButtonFavorite>
                 <Link href={`/sneaker/${data.id}`} passHref>
-                  <ButtonDetail background="#000">Detail</ButtonDetail>
+                  <ButtonDetail background="#000" onClick={() => {setResult([]),setSearchInput("")}}>Detail</ButtonDetail>
                 </Link>
               </CardBody>
           </Card>
