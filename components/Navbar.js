@@ -341,7 +341,7 @@ const handleClickMobileIconSearch = () => {
   return (
     <Div  background={navbarShadow ? "#fff" : ''} shadow={navbarShadow ? '0px 1px 4px 4px rgba(0 0 0 / 10%)' : ''}>
       <Link href="/sneaker" passHref>
-      <a>
+      <a onClick={() => {setResult([]),setSearchInput("")}}>
         <IconLogoMobile />
       </a>
       </Link>
@@ -375,10 +375,10 @@ const handleClickMobileIconSearch = () => {
             <IconSearch />
           </WrappIconSearch>
         </BoxInput>
-      <Link href="/favorites" passHref>
-        <WrappIcon>
+      <Link href="/favorites"  passHref>
+        <WrappIcon onClick={() => {setResult([]),setSearchInput("")}}>
         <Icon />
-        <TotalFavorite>{state?.favorites?.favItems.length === 0  ?  0 : state?.favorites?.favItems.length  }</TotalFavorite>
+        <TotalFavorite>{state?.favorites?.favItems !== null ?  state?.favorites?.favItems.length : 0 }</TotalFavorite>
         </WrappIcon>
       </Link>
     </Div>

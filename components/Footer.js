@@ -5,11 +5,12 @@ import { BsFacebook,BsGithub,BsInstagram } from "react-icons/bs";
 import { BiWorld } from "react-icons/bi";
 const Container = styled.div`
   padding:  20px 80px;
-  margin-top:100px;
+  margin-top:290px;
   width: 100%;
   background-color: rgba(0 0 0 /90%);
   box-sizing: border-box;
-  position: relative;
+  position: absolute;
+
   @media(max-width:768px){
     padding: 30px;
   }
@@ -112,7 +113,7 @@ const Footer = () => {
       <LeftFooter>
         <IconFooter />
         <P>Adam Sneakers</P>
-        <P>Jl. Sama aku, Jadian sama dia, Bekasi, Jawa Barat</P>
+        <P>Jl. kamu akan lancar jika kamu terus berbuat baik. <br /> Bekasi, Jawa Barat <b>( 17510 )</b></P>
       </LeftFooter>
       <RightFooter>
       <P>Links : </P>
@@ -125,7 +126,7 @@ const Footer = () => {
       </RightFooter>
       </WrappFooter>
       <hr />
-        <P>All Right Reserved <b>{new Date().getFullYear()}</b></P>
+        <P>All Right Reserved <b>{new Date().getFullYear()}.</b></P>
 
     </Container>
   )

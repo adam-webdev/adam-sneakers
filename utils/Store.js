@@ -6,7 +6,7 @@ const baseUrl = "https://the-sneaker-database.p.rapidapi.com/search?limit=100&qu
 const initialState = {
   favorites: {
     favItems:
-    typeof window !== "undefined" ?? localStorage.getItem("favItems") ? JSON.parse(localStorage.getItem("favItems")) : [] ,
+    typeof window !== "undefined" ?? localStorage.getItem("favItems") ? JSON.parse(localStorage.getItem("favItems")) : []
 
   },
 };
@@ -16,15 +16,21 @@ const reducer = (state, action) => {
     case "ADD_FAVORITES": {
       const newItem = action.payload;
       //check exist item on favorites return true / false
-      const existItem = state.favorites.favItems.find(
-        (result) => result.id === newItem.id
-      );
+      let existItem;
+
+      if(state.favorites.favItems !== null){
+         existItem = state.favorites.favItems.find(
+          (result) => result.id === newItem.id)
+      }else{
+         existItem = null
+      }
 
       const favItems = existItem
         ? state.favorites.favItems.map((result) =>
             result.id === existItem.id ? newItem : result
           )
-        : [...state.favorites.favItems, newItem];
+        // ...state.favorites.favItems,
+        :  existItem === null ? [newItem] : [...state.favorites.favItems, newItem];
         if(typeof window !== "undefined"){
           localStorage.setItem("favItems", JSON.stringify(favItems));
           return { ...state, favorites: { ...state.favorites, favItems } };
@@ -65,7 +71,7 @@ const StateContextProvider = ({ children }) => {
         ,{
           headers:{
             "x-rapidapi-host": "the-sneaker-database.p.rapidapi.com",
-            "x-rapidapi-key": "fabd47de84msh1b480869cbf2da5p1a08fajsn8261be62e22d"
+            "x-rapidapi-key": "secret"
           }
         });
         const dataJson = await data.json();

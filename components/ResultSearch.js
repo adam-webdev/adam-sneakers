@@ -7,17 +7,24 @@ import { useStateContext } from '../utils/Store'
 import { useSnackbar } from 'notistack'
 
 const ResultSearch = () => {
-  const {results,loading,dispatch} = useStateContext()
+  const {results,loading,dispatch,state} = useStateContext()
   const {enqueueSnackbar,closeSnackbar} = useSnackbar()
   const handleFavorite = (data) => {
     closeSnackbar()
-      const existItem = state?.favorites?.favItems.some(exist => exist.id === data.id)
-      if(existItem){
-        enqueueSnackbar("favorite already exist",{variant:'warning'})
-      }else{
+
+      if(state?.favorites.favItems === null){
         enqueueSnackbar("successfuly added to favorite",{variant:'success'})
         dispatch({type:"ADD_FAVORITES",payload:{...data}})
+      }else{
+        const existItem =  state?.favorites?.favItems.some(exist => exist.id === data.id)
+        if(existItem){
+          enqueueSnackbar("favorite already exist",{variant:'warning'})
+        }else{
+          enqueueSnackbar("successfuly added to favorite",{variant:'success'})
+          dispatch({type:"ADD_FAVORITES",payload:{...data}})
+        }
       }
+
 
     }
    return (

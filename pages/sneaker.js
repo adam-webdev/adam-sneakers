@@ -152,14 +152,15 @@ const Sneakers = ({resultsData}) => {
 
   const handleFavorite = (data) => {
   closeSnackbar()
-    const existItem = state?.favorites?.favItems.some(exist => exist.id === data.id)
+    const existItem = state?.favorites.favItems !== null ?
+
+    state?.favorites?.favItems.find(exist => exist.id === data.id) : null
     if(existItem){
       enqueueSnackbar("favorite already exist",{variant:'warning'})
     }else{
       enqueueSnackbar("successfuly added to favorite",{variant:'success'})
       dispatch({type:"ADD_FAVORITES",payload:{...data}})
     }
-
   }
 
 
@@ -213,7 +214,7 @@ export async function getServerSideProps(){
   const data = await fetch(`https://the-sneaker-database.p.rapidapi.com/sneakers?limit=100`,{
     headers:{
       "x-rapidapi-host": "the-sneaker-database.p.rapidapi.com",
-      "x-rapidapi-key": "fabd47de84msh1b480869cbf2da5p1a08fajsn8261be62e22d"
+      "x-rapidapi-key": "secret"
     }
   })
   const resultsData = await data.json()

@@ -93,7 +93,7 @@ const SneakerDetail = () => {
           const fetchId = await fetch(`https://the-sneaker-database.p.rapidapi.com/sneakers/${id}`,{
             headers:{
               "x-rapidapi-host": "the-sneaker-database.p.rapidapi.com",
-              "x-rapidapi-key": "fabd47de84msh1b480869cbf2da5p1a08fajsn8261be62e22d"
+              "x-rapidapi-key": "secret"
             }})
           const fetchIdJson = await fetchId.json()
           console.log(fetchIdJson)

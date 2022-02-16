@@ -28,6 +28,10 @@ const Breadcumb = styled.p`
 
   }
 `
+const Body = styled.div`
+  height: auto;
+  position: relative;
+`
 // const Div = styled.div``
 // const Div = styled.div``
 const Layout = ({title,description,children}) => {
@@ -44,8 +48,10 @@ const Layout = ({title,description,children}) => {
     <Div>
       <Breadcumb><Link href="/sneaker">Home</Link> &gt; {breadcumbs}</Breadcumb>
     </Div>
-    {children}
+    <Body>
+      {children}
     <Footer />
+    </Body>
     </>
   )
 }

@@ -143,28 +143,24 @@ const H2 = styled.h2`
   }
 `
 const Favorites = () => {
-  const {state,dispatch,searchInput} = useStateContext()
+  const {state,dispatch,searchInput,setSearchInput} = useStateContext()
   const {enqueueSnackbar,closeSnackbar} = useSnackbar()
   const router = useRouter()
   const LoadMore = () => {
     setLimit((current) => current + 10)
   }
-
   const handleDeleteFavorite = (data) => {
     enqueueSnackbar("successfuly deleted favorite",{variant:'success'})
     dispatch({type:"DELETE_ITEM_FAVORITES",payload: data})
   }
-
-  if(searchInput) {
-    return(
-      <ResultSearch />
-    )
-  }else{
+  if(searchInput){
+    return <ResultSearch />
+  }
     return (
       <Layout title="All Favorites" description="Favorites your shoes">
       <Container>
             <H2>Your Favorites :</H2>
-        {state?.favorites?.favItems.length < 0 ? <p>Kosong </p> : (
+        {!state?.favorites?.favItems  ? (<p>Kosong </p>) : (
         <GridCard>
           {state?.favorites?.favItems.map((data,index) => (
             <Card key={index}>
@@ -189,7 +185,5 @@ const Favorites = () => {
       </Layout>
     )
   }
-}
-
 
 export default Favorites;
