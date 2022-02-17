@@ -194,7 +194,7 @@ const Sneakers = ({resultsData}) => {
                 <p>{data?.name}</p>
                 <ButtonFavorite  onClick={()=> handleFavorite(data)} >Add Favorite</ButtonFavorite>
                 <Link href={`/sneaker/${data.id}`} passHref>
-                  <ButtonDetail background="#000" onClick={() => {setResult([]),setSearchInput("")}}>Detail</ButtonDetail>
+                  <ButtonDetail background="#000" onClick={() => {if(searchInput){setResult([]),setSearchInput("")}}}>Detail</ButtonDetail>
                 </Link>
               </CardBody>
           </Card>
@@ -210,7 +210,7 @@ export async function getServerSideProps(){
   const data = await fetch(`https://the-sneaker-database.p.rapidapi.com/sneakers?limit=100`,{
     headers:{
       "x-rapidapi-host": "the-sneaker-database.p.rapidapi.com",
-      "x-rapidapi-key": "fabd47de84msh1b480869cbf2da5p1a08fajsn8261be62e22d"
+      "x-rapidapi-key": "e3d3017404msh20ce18a12a7d4a8p167944jsn89a50910e30d"
     }
   })
   const resultsData = await data.json()

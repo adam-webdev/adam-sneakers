@@ -80,7 +80,7 @@ const Story = styled.p`
 `
 const SneakerDetail = () => {
   const {searchInput,setSearchInput,setLoading,loading} = useStateContext()
-  const [results,setResults] = useState([])
+  const [resultsData,setResultsData] = useState([])
   // const {id} = useParams()
   const router = useRouter()
   const { id } = router.query
@@ -92,10 +92,10 @@ const SneakerDetail = () => {
           const fetchId = await fetch(`https://the-sneaker-database.p.rapidapi.com/sneakers/${id}`,{
             headers:{
               "x-rapidapi-host": "the-sneaker-database.p.rapidapi.com",
-              "x-rapidapi-key": "fabd47de84msh1b480869cbf2da5p1a08fajsn8261be62e22d"
+              "x-rapidapi-key": "e3d3017404msh20ce18a12a7d4a8p167944jsn89a50910e30d"
             }})
           const fetchIdJson = await fetchId.json()
-          setResults(fetchIdJson.results[0])
+          setResultsData(fetchIdJson.results[0])
           setLoading(false)
       } catch(err) {
         console.log(err)
@@ -117,54 +117,54 @@ const SneakerDetail = () => {
   }else{
 
   return (
-    <Layout title="Sneaker Detail" description={results?.name}>
+    <Layout title="Sneaker Detail" description={resultsData?.name}>
       <Container>
         <Left>
-          <Img src={results?.image ? results?.image.original : Sepatu } width="100%" height="100%" layout="responsive" objectFit="contain" alt="Sepatu detail" />
+          <Img src={resultsData?.image ? resultsData?.image.original : Sepatu } width="100%" height="100%" layout="responsive" objectFit="contain" alt="Sepatu detail" />
         </Left>
         <Right>
           <Span>
             <Name>Brand : </Name>
-            <p>{results?.brand}</p>
+            <p>{resultsData?.brand}</p>
           </Span>
           <Span>
             <Name>Name : </Name>
-            <p>{results?.name}</p>
+            <p>{resultsData?.name}</p>
           </Span>
           <Span>
             <Name>Gender : </Name>
-            <p>{results?.gender}</p>
+            <p>{resultsData?.gender}</p>
           </Span>
           <Span>
             <Name>Color : </Name>
-            <p>{results?.colorway}</p>
+            <p>{resultsData?.colorway}</p>
           </Span>
           <Span>
             <Name>Release Year : </Name>
-            <p>{results?.releaseYear}</p>
+            <p>{resultsData?.releaseYear}</p>
           </Span>
           <Span>
             <Name>Release Date : </Name>
-            <p>{results?.releaseDate}</p>
+            <p>{resultsData?.releaseDate}</p>
           </Span>
           <Span>
             <Name>Price : </Name>
-            <p>$ {results?.retailPrice}</p>
+            <p>$ {resultsData?.retailPrice}</p>
           </Span>
           <Span>
             <Name>Sku : </Name>
-            <p>{results?.sku}</p>
+            <p>{resultsData?.sku}</p>
           </Span>
           <Span>
             <Name>Silhouette : </Name>
-            <p>{results?.silhouette}</p>
+            <p>{resultsData?.silhouette}</p>
           </Span>
           <Span>
             <Name>Links for Buy : </Name>
-            <Link href={results?.links?.flightClub !== undefined ? results?.links?.flightClub : ""} passHref><Links target="_blank">{results?.links?.goat !== "" ? "flightClub " : ""}</Links></Link>
-            <Link href={results?.links?.goat !== undefined ? results?.links?.goat : ""} passHref><Links target="_blank">{results?.links?.goat !== "" ? "Goat " : ""}</Links></Link>
-            <Link href={results?.links?.stadiumGoods !== undefined ? results?.links?.stadiumGoods : ""} passHref><Links target="_blank">{results?.links?.stadiumGoods !== "" ? "Stadium Goods " : ""}</Links></Link>
-            <Link href={results?.links?.stockX  !== undefined ? results?.links?.stockX : ""} passHref><Links target="_blank">{results?.links?.stockX !=="" ? "Stock X " : ""}</Links></Link>
+            <Link href={resultsData?.links?.flightClub !== undefined ? resultsData?.links?.flightClub : ""} passHref><Links target="_blank">{resultsData?.links?.goat !== "" ? "flightClub " : ""}</Links></Link>
+            <Link href={resultsData?.links?.goat !== undefined ? resultsData?.links?.goat : ""} passHref><Links target="_blank">{resultsData?.links?.goat !== "" ? "Goat " : ""}</Links></Link>
+            <Link href={resultsData?.links?.stadiumGoods !== undefined ? resultsData?.links?.stadiumGoods : ""} passHref><Links target="_blank">{resultsData?.links?.stadiumGoods !== "" ? "Stadium Goods " : ""}</Links></Link>
+            <Link href={resultsData?.links?.stockX  !== undefined ? resultsData?.links?.stockX : ""} passHref><Links target="_blank">{resultsData?.links?.stockX !=="" ? "Stock X " : ""}</Links></Link>
           </Span>
         </Right>
       </Container>
@@ -172,7 +172,7 @@ const SneakerDetail = () => {
         <Name>
           Story :
         </Name>
-        <Story>{results?.story ? results?.story : " (-) story does not exist"}</Story>
+        <Story>{resultsData?.story ? resultsData?.story : " (-) story does not exist"}</Story>
       </WrappStory>
     </Layout>
   )

@@ -71,7 +71,7 @@ const StateContextProvider = ({ children }) => {
         ,{
           headers:{
             "x-rapidapi-host": "the-sneaker-database.p.rapidapi.com",
-            "x-rapidapi-key": "fabd47de84msh1b480869cbf2da5p1a08fajsn8261be62e22d"
+            "x-rapidapi-key": "e3d3017404msh20ce18a12a7d4a8p167944jsn89a50910e30d"
           }
         });
         const dataJson = await data.json();

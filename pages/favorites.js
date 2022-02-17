@@ -174,7 +174,7 @@ const Favorites = () => {
                 <p>{data?.name}</p>
                 <ButtonFavorite onClick={() => handleDeleteFavorite(data)}>Delete Favorite</ButtonFavorite>
                 <Link href={`/sneaker/${data.id}`} passHref>
-                  <ButtonDetail background="#000">Detail</ButtonDetail>
+                  <ButtonDetail background="#000" onClick={() => {if(searchInput){setResult([]),setSearchInput("")}}}>Detail</ButtonDetail>
                 </Link>
               </CardBody>
           </Card>
